@@ -1,6 +1,5 @@
 [versions]
 kotlin = "2.0.20"
-kotlinCsv = "1.10.0"
 
 [libraries]
 
