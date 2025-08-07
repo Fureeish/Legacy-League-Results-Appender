@@ -10,6 +10,8 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.dotenv)
+
     testImplementation(kotlin("test"))
 }
 
@@ -18,5 +20,5 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(18)
 }

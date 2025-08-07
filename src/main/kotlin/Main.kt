@@ -1,3 +1,4 @@
+import io.github.cdimascio.dotenv.dotenv
 import models.LeagueStandingsPlayerRecord
 import models.SeasonStandingsPlayerRecord
 import java.io.File
@@ -6,11 +7,11 @@ const val MATH_MODE = "$$"
 const val COLUMN_SEPARATOR = "|"
 
 fun main() {
-    val playerSeasonStandingsPath =
-        "\\\\wsl.localhost\\Ubuntu-22.04\\home\\filip\\LordsOfLegacy\\_posts\\Season 1\\2025-06-25-Legacy-League-Standings-Season-1.md"
-    val newestLeagueStandingsPath =
-        "\\\\wsl.localhost\\Ubuntu-22.04\\home\\filip\\LordsOfLegacy\\_posts\\Season 1\\2025-08-06-Legacy-League-1-6.md"
-    val seasonNumber = 1
+    val env = dotenv()
+
+    val playerSeasonStandingsPath = env.get("PLAYER_SEASON_STANDINGS_PATH")
+    val newestLeagueStandingsPath = env.get("NEWEST_LEAGUE_STANDINGS_PATH")
+    val seasonNumber = env.get("SEASON_NUMBER").toInt()
 
     val playerSeasonStandings = getPlayerStandings(playerSeasonStandingsPath, SeasonStandingsPlayerRecord)
     val playerLeagueStandings = getPlayerStandings(newestLeagueStandingsPath, LeagueStandingsPlayerRecord)
