@@ -1,35 +1,6 @@
 import models.LeagueStandingsPlayerRecord
 import models.SeasonStandingsPlayerRecord
 import java.io.File
-import kotlin.collections.drop
-import kotlin.collections.dropLast
-import kotlin.collections.filterNotNull
-import kotlin.collections.find
-import kotlin.collections.first
-import kotlin.collections.forEach
-import kotlin.collections.joinToString
-import kotlin.collections.lastIndex
-import kotlin.collections.map
-import kotlin.collections.plusAssign
-import kotlin.collections.sort
-import kotlin.collections.sum
-import kotlin.collections.toList
-import kotlin.collections.toMutableList
-import kotlin.collections.withIndex
-import kotlin.io.useLines
-import kotlin.let
-import kotlin.sequences.drop
-import kotlin.sequences.filter
-import kotlin.sequences.map
-import kotlin.sequences.toMutableList
-import kotlin.text.contains
-import kotlin.text.orEmpty
-import kotlin.text.replace
-import kotlin.text.split
-import kotlin.text.startsWith
-import kotlin.text.toInt
-import kotlin.text.toIntOrNull
-import kotlin.text.trim
 
 const val MATH_MODE = "$$"
 const val COLUMN_SEPARATOR = "|"
