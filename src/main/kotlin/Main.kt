@@ -51,17 +51,22 @@ fun main() {
     val firstRow = getColumnNames(numberOfLeaguesSoFar, seasonNumber)
     val secondRow = getColumnAlignments(numberOfLeaguesSoFar)
 
-    println(firstRow)
-    println(secondRow)
-
     val newFileContent = buildString {
         append(preamble.joinToString(separator = "\n", postfix = "\n"))
 
+        append("$firstRow\n")
+        append("$secondRow\n")
         for ((index, player) in playerSeasonStandings.withIndex()) {
-            append("$COLUMN_SEPARATOR $MATH_MODE ${index + 1}. $MATH_MODE $player")
+            append("$COLUMN_SEPARATOR $MATH_MODE ${index + 1}. $MATH_MODE $player\n")
 
         }
+        append("\n")
         append(links.joinToString(separator = "\n", postfix = "\n"))
+
+        append("[league-$seasonNumber-$numberOfLeaguesSoFar]: ../Legacy-League-$seasonNumber-$numberOfLeaguesSoFar\n")
+        append("\n")
+        append("---\n")
+        append("\n")
     }
 
     File(playerSeasonStandingsPath).writeText(newFileContent)
@@ -75,8 +80,10 @@ fun getPreamble(path: String) = File(path)
 fun getLinks(path: String) = File(path)
     .useLines { lines ->
         lines
-            .dropWhile { it.first() != '|' }
-            .dropWhile { it.first() == '|' }
+            .dropWhile { it.isEmpty() || it.first() != '|' }
+            .dropWhile { it.isNotEmpty() && it.first() == '|' }
+            .drop(1)
+            .takeWhile(String::isNotEmpty)
             .toList()
     }
 
