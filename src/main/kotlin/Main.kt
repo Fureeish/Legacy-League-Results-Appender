@@ -16,8 +16,10 @@ fun main() {
     val newestLeagueStandingsPath = env.get("NEWEST_LEAGUE_STANDINGS_PATH")
     val seasonNumber = env.get("SEASON_NUMBER").toInt()
 
+    val preamble = getPreamble(playerSeasonStandingsPath)
     val playerSeasonStandings = getPlayerStandings(playerSeasonStandingsPath, SeasonStandingsPlayerRecord)
     val playerLeagueStandings = getPlayerStandings(newestLeagueStandingsPath, LeagueStandingsPlayerRecord)
+    val links = getLinks(playerSeasonStandingsPath)
 
     addNewScoreColumnToAllPlayers(playerSeasonStandings)
     val numberOfLeaguesSoFar = playerSeasonStandings.first().scores.size
@@ -52,10 +54,31 @@ fun main() {
     println(firstRow)
     println(secondRow)
 
-    for ((index, player) in playerSeasonStandings.withIndex()) {
-        println("$COLUMN_SEPARATOR $MATH_MODE ${index + 1}. $MATH_MODE $player")
+    val newFileContent = buildString {
+        append(preamble.joinToString(separator = "\n", postfix = "\n"))
+
+        for ((index, player) in playerSeasonStandings.withIndex()) {
+            append("$COLUMN_SEPARATOR $MATH_MODE ${index + 1}. $MATH_MODE $player")
+
+        }
+        append(links.joinToString(separator = "\n", postfix = "\n"))
     }
+
+    File(playerSeasonStandingsPath).writeText(newFileContent)
 }
+
+fun getPreamble(path: String) = File(path)
+    .useLines { lines ->
+        lines.take(16).toList()
+    }
+
+fun getLinks(path: String) = File(path)
+    .useLines { lines ->
+        lines
+            .dropWhile { it.first() != '|' }
+            .dropWhile { it.first() == '|' }
+            .toList()
+    }
 
 private fun getColumnNames(numberOfLeaguesSoFar: Int, seasonNumber: Int): String {
     val columns = mutableListOf("Place", "Name and surname", "Total points")
